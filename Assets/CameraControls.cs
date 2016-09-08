@@ -80,6 +80,15 @@ public class CameraControls : MonoBehaviour {
         //Rotation
         transform.RotateAround(transform.position, Vector3.up, 100 * Time.deltaTime * Input.GetAxis("Mouse X"));
         transform.RotateAround(transform.position, transform.right, -100 * Time.deltaTime * Input.GetAxis("Mouse Y"));
+        //Yaw
+        if (Input.GetKey("e"))
+        {
+            transform.RotateAround(transform.position, transform.forward, -100 * Time.deltaTime);
+        }
+        if (Input.GetKey("q"))
+        {
+            transform.RotateAround(transform.position, transform.forward, 100 * Time.deltaTime);
+        }
     }
 
 
