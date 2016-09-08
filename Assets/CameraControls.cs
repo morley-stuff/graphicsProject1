@@ -5,6 +5,9 @@ using System;
 public class CameraControls : MonoBehaviour {
 
     public DiamondSquareScript myTerrain;
+    public float translateSpeed;
+    public float rotateSpeed;
+    public float yawSpeed;
     float minX;
     float minZ;
     float maxX;
@@ -36,58 +39,58 @@ public class CameraControls : MonoBehaviour {
         //Forward Movement
         if (Input.GetKey("w"))
         {
-            transform.position += transform.forward * Time.deltaTime * 5;
+            transform.position += transform.forward * Time.deltaTime * translateSpeed;
             //If the object is outside of the bounds of the terrain or colliding with something
             //undo the movement
             if (oobCheck())
             {
-                transform.position -= transform.forward * Time.deltaTime * 5;
+                transform.position -= transform.forward * Time.deltaTime * translateSpeed;
             }
         }
         //Backward Movement
         if (Input.GetKey("s"))
         {
-            transform.position -= transform.forward * Time.deltaTime * 5;
+            transform.position -= transform.forward * Time.deltaTime * translateSpeed;
             //If the object is outside of the bounds of the terrain or colliding with something
             //undo the movement
             if (oobCheck())
             {
-                transform.position += transform.forward * Time.deltaTime * 5;
+                transform.position += transform.forward * Time.deltaTime * translateSpeed;
             }
         }
         //Leftward Movement
         if (Input.GetKey("a"))
         {
-            transform.position -= transform.right * Time.deltaTime * 5;
+            transform.position -= transform.right * Time.deltaTime * translateSpeed;
             //If the object is outside of the bounds of the terrain or colliding with something
             //undo the movement
             if (oobCheck())
             {
-                transform.position += transform.right * Time.deltaTime * 5;
+                transform.position += transform.right * Time.deltaTime * translateSpeed;
             }
         }
         //Rightward Movement
         if (Input.GetKey("d"))
         {
-            transform.position += transform.right * Time.deltaTime * 5;
+            transform.position += transform.right * Time.deltaTime * translateSpeed;
             //If the object is outside of the bounds of the terrain or colliding with something
             //undo the movement
             if (oobCheck())
             {
-                transform.position -= transform.right * Time.deltaTime * 5;
+                transform.position -= transform.right * Time.deltaTime * translateSpeed;
             }
         }
         //Rotation
-        transform.RotateAround(transform.position, Vector3.up, 100 * Time.deltaTime * Input.GetAxis("Mouse X"));
-        transform.RotateAround(transform.position, transform.right, -100 * Time.deltaTime * Input.GetAxis("Mouse Y"));
+        transform.RotateAround(transform.position, Vector3.up, rotateSpeed * Time.deltaTime * Input.GetAxis("Mouse X"));
+        transform.RotateAround(transform.position, transform.right, -rotateSpeed * Time.deltaTime * Input.GetAxis("Mouse Y"));
         //Yaw
         if (Input.GetKey("e"))
         {
-            transform.RotateAround(transform.position, transform.forward, -100 * Time.deltaTime);
+            transform.RotateAround(transform.position, transform.forward, -yawSpeed * Time.deltaTime);
         }
         if (Input.GetKey("q"))
         {
-            transform.RotateAround(transform.position, transform.forward, 100 * Time.deltaTime);
+            transform.RotateAround(transform.position, transform.forward, yawSpeed * Time.deltaTime);
         }
     }
 
@@ -103,6 +106,6 @@ public class CameraControls : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
-        transform.position += Vector3.up * Time.deltaTime * 5;
+        transform.position += Vector3.up * Time.deltaTime * translateSpeed;
     }
 }

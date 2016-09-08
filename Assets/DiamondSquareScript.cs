@@ -22,7 +22,7 @@ public class DiamondSquareScript : MonoBehaviour
         MeshRenderer renderer = this.gameObject.AddComponent<MeshRenderer>();
         renderer.material.shader = shader;
 
-        transform.Translate(new Vector3(-(float)(Math.Pow(2, power) + 1)/2, 0, -(float)(Math.Pow(2, power) + 1)/2));
+        transform.Translate(new Vector3(-((float)(Math.Pow(2, power) + 1))/2, 0, -((float)(Math.Pow(2, power) + 1))/2));
         this.gameObject.AddComponent(typeof(MeshCollider));
     }
 
@@ -123,18 +123,19 @@ public class DiamondSquareScript : MonoBehaviour
         }
         //Generate map of previous size
         float [,] stepDownMap = diamondSquare((mapSize/2) + 1, cornerVal,reductionVal * 2);
+        int lowerLength = stepDownMap.GetLength(0);
         //Lay stepDownMap onto currentMap for values already computed
-        for(int i=0; i < stepDownMap.GetLength(0); i++)
+        for(int i=0; i < lowerLength; i++)
         {
-            for(int j=0; j < stepDownMap.GetLength(1); j++)
+            for(int j=0; j < lowerLength; j++)
             {
                 currentMap[i * 2, j * 2] = stepDownMap[i, j];
             }
         }
         //Perform diamond step
-        for (int i = 0; i < stepDownMap.GetLength(0)-1; i++)
+        for (int i = 0; i < lowerLength - 1; i++)
         {
-            for (int j = 0; j < stepDownMap.GetLength(1)-1; j++)
+            for (int j = 0; j < lowerLength - 1; j++)
             {
                 //Find surrounding points
                 float p1, p2, p3, p4, avg, rand;
@@ -148,19 +149,19 @@ public class DiamondSquareScript : MonoBehaviour
             }
         }
         //Perform square step
-        for (int i = 0;i < stepDownMap.GetLength(0); i++)
+        for (int i = 0;i < lowerLength; i++)
         {
-            for (int j = 0;j < stepDownMap.GetLength(1); j++)
+            for (int j = 0;j < lowerLength; j++)
             {
                 //Calculate value of point to the positive i
-                if (i < (stepDownMap.GetLength(0) - 1)){
+                if (i < (lowerLength - 1)){
                     float avg, rand;
                     int count = 0;
                     float total = 0f;
                     //Point to neg i
                     total += stepDownMap[i, j];
                     count++;
-                    //Point to pos i
+                    //Point to pos j
                     total += stepDownMap[i + 1, j];
                     count++;
                     //Point to neg j
@@ -169,7 +170,7 @@ public class DiamondSquareScript : MonoBehaviour
                         total += currentMap[(i * 2) + 1, (j * 2) - 1];
                         count++;
                     }
-                    if (j < (stepDownMap.GetLength(1) - 1))
+                    if (j < (lowerLength - 1))
                     {
                         total += currentMap[(i * 2) + 1, (j * 2) + 1];
                         count++;
@@ -179,7 +180,7 @@ public class DiamondSquareScript : MonoBehaviour
                     currentMap[(i * 2) + 1, (j * 2)] = avg + rand * reductionVal;
                 }
                 //Calculate value of point to the positive j
-                if (j < (stepDownMap.GetLength(1) - 1))
+                if (j < (lowerLength - 1))
                 {
                     float avg, rand;
                     int count = 0;
@@ -196,7 +197,7 @@ public class DiamondSquareScript : MonoBehaviour
                         total += currentMap[(i * 2) - 1, (j * 2) + 1];
                         count++;
                     }
-                    if (i < (stepDownMap.GetLength(0) - 1))
+                    if (i < (lowerLength - 1))
                     {
                         total += currentMap[(i * 2) + 1, (j * 2) + 1];
                         count++;
